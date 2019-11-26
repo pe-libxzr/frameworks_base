@@ -63,4 +63,9 @@
     <string name="status_bar_camera">相机</string>
     <string name="status_bar_location">位置</string>
     <string name="status_bar_microphone">麦克风</string>
+    <string name="qs_data_switch_label">切换数据卡</string>
+    <string name="qs_data_switch_toast_0">无SIM卡</string>
+    <string name="qs_data_switch_toast_1">只有一张可用SIM卡</string>
+    <string name="qs_data_switch_changed_1">正在使用卡1数据</string>
+    <string name="qs_data_switch_changed_2">正在使用卡2数据</string>
 </resources>
