@@ -98,5 +98,6 @@
 
     <!-- Name of the additional status bar icons also exposed with SystemUI Tuner -->
     <string name="status_bar_location">Location</string>
+    <string name="status_bar_vpn">VPN</string>
 
 </resources>
