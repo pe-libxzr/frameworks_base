@@ -220,7 +220,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
     // Network Traffic
     private NetworkTraffic mNetworkTraffic;
-    private NetworkTraffic mNetworkTrafficExpanded;
 
     @Inject
     public QuickStatusBarHeader(@Named(VIEW_CONTEXT) Context context, AttributeSet attrs,
@@ -309,7 +308,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
         // Network Traffic
         mNetworkTraffic = findViewById(R.id.networkTraffic);
-        mNetworkTrafficExpanded = findViewById(R.id.networkTrafficExpanded);
 
         mAllIndicatorsEnabled = mPrivacyItemController.getAllIndicatorsAvailable();
         mMicCameraIndicatorsEnabled = mPrivacyItemController.getMicCameraAvailable();
@@ -769,7 +767,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         int fillColor = mDualToneHandler.getSingleColor(intensity);
         mBatteryRemainingIcon.onDarkChanged(tintArea, intensity, fillColor);
         mNetworkTraffic.onDarkChanged(tintArea, intensity, fillColor);
-        mNetworkTrafficExpanded.onDarkChanged(tintArea, intensity, fillColor);
     }
 
     public void setCallback(Callback qsPanelCallback) {
