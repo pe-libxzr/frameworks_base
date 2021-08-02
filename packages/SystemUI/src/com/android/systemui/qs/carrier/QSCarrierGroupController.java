@@ -204,14 +204,11 @@ public class QSCarrierGroupController {
             mCarrierGroups[i].updateState(mInfos[i]);
         }
 
-        mCarrierDividers[0].setVisibility(
-                mInfos[0].visible && mInfos[1].visible ? View.VISIBLE : View.GONE);
+        mCarrierDividers[0].setVisibility(View.GONE);
         // This tackles the case of slots 2 being available as well as at least one other.
         // In that case we show the second divider. Note that if both dividers are visible, it means
         // all three slots are in use, and that is correct.
-        mCarrierDividers[1].setVisibility(
-                (mInfos[1].visible && mInfos[2].visible)
-                        || (mInfos[0].visible && mInfos[2].visible) ? View.VISIBLE : View.GONE);
+        mCarrierDividers[1].setVisibility(View.GONE);
     }
 
     @MainThread
@@ -241,7 +238,7 @@ public class QSCarrierGroupController {
                     slotSeen[slot] = true;
                     mCarrierGroups[slot].setCarrierText(
                             info.listOfCarriers[i].toString().trim());
-                    mCarrierGroups[slot].setVisibility(View.VISIBLE);
+                    mCarrierGroups[slot].setVisibility(View.GONE);
                 }
                 for (int i = 0; i < SIM_SLOTS; i++) {
                     if (!slotSeen[i]) {
