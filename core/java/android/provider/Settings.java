@@ -5267,6 +5267,24 @@ public final class Settings {
         public static final String QS_SHOW_LUNAR_CALENDAR = "qs_show_lunar_calendar";
 
         /**
+         * Optimized charging enabled
+         * @hide
+         */
+        public static final String OPTIMIZED_CHARGE_ENABLED = "optimized_charge_enabled";
+
+        /**
+         * Optimized charging ceiling
+         * @hide
+         */
+        public static final String OPTIMIZED_CHARGE_CEILING = "optimized_charge_ceiling";
+
+        /**
+         * Optimized charging floor
+         * @hide
+         */
+        public static final String OPTIMIZED_CHARGE_FLOOR = "optimized_charge_floor";
+
+        /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
@@ -5463,6 +5481,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HEIGHT);
             PRIVATE_SETTINGS.add(FOD_GESTURE);
+            PRIVATE_SETTINGS.add(OPTIMIZED_CHARGE_ENABLED);
+            PRIVATE_SETTINGS.add(OPTIMIZED_CHARGE_CEILING);
+            PRIVATE_SETTINGS.add(OPTIMIZED_CHARGE_FLOOR);
         }
 
         /**

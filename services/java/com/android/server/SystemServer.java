@@ -203,6 +203,8 @@ import com.android.server.custom.display.LiveDisplayService;
 // LineageGlobalActions
 import com.android.server.custom.globalactions.LineageGlobalActionsService;
 
+import moe.xzr.server.OptimizedChargeService;
+
 public final class SystemServer {
 
     private static final String TAG = "SystemServer";
@@ -2046,6 +2048,10 @@ public final class SystemServer {
                 mSystemServiceManager.startService(PocketBridgeService.class);
                 t.traceEnd();
             }
+
+            t.traceBegin("StartOptimizedChargeService");
+            mSystemServiceManager.startService(OptimizedChargeService.class);
+            t.traceEnd();
         }
 
         if (!isWatch) {
