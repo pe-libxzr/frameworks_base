@@ -51,7 +51,7 @@ public final class OptimizedChargeService extends SystemService {
     private IChargeControl mChargeControl;
 
     private float mLevel;
-    private boolean mCharging;
+    private boolean mPlugged;
     private boolean mLastChargeEnabled;
 
     private int mCeiling;
@@ -60,7 +60,7 @@ public final class OptimizedChargeService extends SystemService {
 
     private void updateAction() {
         Log.d(TAG, "pct: " + mLevel);
-        Log.d(TAG, "charging: " + mCharging);
+        Log.d(TAG, "plugged: " + mPlugged);
         Log.d(TAG, "enabled: " + mEnabled);
         Log.d(TAG, "ceiling: " + mCeiling);
         Log.d(TAG, "floor: " + mFloor);
@@ -110,25 +110,24 @@ public final class OptimizedChargeService extends SystemService {
     private void onBatteryChanged(Intent batteryStatus) {
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0);
 
         float newLevel = level * 100 / (float)scale;
-        boolean newCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                             status == BatteryManager.BATTERY_STATUS_FULL;
+        boolean newPlugged = status != 0;
 
         boolean shouldUpdate = false;
         if (newLevel != mLevel) {
             mLevel = newLevel;
             shouldUpdate = true;
         }
-        if (newCharging != mCharging) {
-            if (newCharging)
+        if (newPlugged != mPlugged) {
+            if (newPlugged)
                 mLastChargeEnabled = false;
-            mCharging = newCharging;
+            mPlugged = newPlugged;
             shouldUpdate = true;
         }
 
-        if (shouldUpdate && mCharging)
+        if (shouldUpdate && mPlugged)
             updateAction();
     }
 
