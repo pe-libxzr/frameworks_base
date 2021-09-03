@@ -32,7 +32,9 @@ import android.util.Log;
 import com.android.server.ServiceThread;
 import com.android.server.SystemService;
 
+import java.lang.InterruptedException;
 import java.lang.String;
+import java.lang.Thread;
 import java.util.NoSuchElementException;
 
 import static moe.xzr.hardware.ChargeManager.OPTIMIZED_CHARGE_SERVICE;
@@ -121,8 +123,14 @@ public final class OptimizedChargeService extends SystemService {
             shouldUpdate = true;
         }
         if (newPlugged != mPlugged) {
-            if (newPlugged)
+            if (newPlugged) {
                 mLastChargeEnabled = false;
+                if (status == BatteryManager.BATTERY_PLUGGED_USB) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {}
+                }
+            }
             mPlugged = newPlugged;
             shouldUpdate = true;
         }
