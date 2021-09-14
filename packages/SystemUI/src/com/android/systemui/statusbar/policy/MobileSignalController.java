@@ -19,9 +19,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.NetworkCapabilities;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings.Global;
+import android.provider.Settings.System;
 import android.telephony.Annotation;
 import android.telephony.CdmaEriInformation;
 import android.telephony.CellSignalStrength;
@@ -82,6 +84,7 @@ public class MobileSignalController extends SignalController<
     private SignalStrength mSignalStrength;
     private MobileIconGroup mDefaultIcons;
     private Config mConfig;
+    private boolean mSpecificType;
     @VisibleForTesting
     boolean mInflateSignalStrengths = false;
 
@@ -104,6 +107,8 @@ public class MobileSignalController extends SignalController<
                 .toString();
         mNetworkNameDefault = getTextIfExists(
                 com.android.internal.R.string.lockscreen_carrier_default).toString();
+        mSpecificType = System.getInt(mContext.getContentResolver(),
+                                System.SPECIFIC_MOBILE_DATA_TYPE, 0) == 1;
 
         mapIconSets();
 
@@ -117,7 +122,14 @@ public class MobileSignalController extends SignalController<
         updateDataSim();
         mObserver = new ContentObserver(new Handler(receiverLooper)) {
             @Override
-            public void onChange(boolean selfChange) {
+            public void onChange(boolean selfChange, Uri uri) {
+                String name = uri.getLastPathSegment();
+                if (name != null && name.equals(System.SPECIFIC_MOBILE_DATA_TYPE)) {
+                    mSpecificType = System.getInt(mContext.getContentResolver(),
+                                                name, 0) == 1;
+                    mapIconSets();
+                }
+
                 updateTelephony();
             }
         };
@@ -172,6 +184,9 @@ public class MobileSignalController extends SignalController<
         mContext.getContentResolver().registerContentObserver(Global.getUriFor(
                 Global.MOBILE_DATA + mSubscriptionInfo.getSubscriptionId()),
                 true, mObserver);
+        mContext.getContentResolver().registerContentObserver(System.getUriFor(
+                System.SPECIFIC_MOBILE_DATA_TYPE),
+                false, mObserver);
     }
 
     /**
@@ -245,7 +260,7 @@ public class MobileSignalController extends SignalController<
         mNetworkToIconLookup.put(toIconKey(TelephonyManager.NETWORK_TYPE_HSPA), hGroup);
         mNetworkToIconLookup.put(toIconKey(TelephonyManager.NETWORK_TYPE_HSPAP), hPlusGroup);
 
-        if (mConfig.show4gForLte) {
+        if (!mSpecificType) {
             mNetworkToIconLookup.put(toIconKey(
                     TelephonyManager.NETWORK_TYPE_LTE),
                     TelephonyIcons.FOUR_G);
@@ -279,14 +294,24 @@ public class MobileSignalController extends SignalController<
                 TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_ADVANCED_PRO),
                 TelephonyIcons.LTE_CA_5G_E);
         mNetworkToIconLookup.put(toDisplayIconKey(
-                TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA),
-                TelephonyIcons.NR_5G);
-        mNetworkToIconLookup.put(toDisplayIconKey(
                 TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA_MMWAVE),
                 TelephonyIcons.NR_5G_PLUS);
-        mNetworkToIconLookup.put(toIconKey(
-                TelephonyManager.NETWORK_TYPE_NR),
-                TelephonyIcons.NR_5G);
+
+        if (!mSpecificType) {
+            mNetworkToIconLookup.put(toDisplayIconKey(
+                    TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA),
+                    TelephonyIcons.NR_5G);
+            mNetworkToIconLookup.put(toIconKey(
+                    TelephonyManager.NETWORK_TYPE_NR),
+                    TelephonyIcons.NR_5G);
+        } else {
+            mNetworkToIconLookup.put(toDisplayIconKey(
+                    TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA),
+                    TelephonyIcons.NR_NSA);
+            mNetworkToIconLookup.put(toIconKey(
+                    TelephonyManager.NETWORK_TYPE_NR),
+                    TelephonyIcons.NR_SA);
+        }
     }
 
     private String getIconKey() {
@@ -309,7 +334,7 @@ public class MobileSignalController extends SignalController<
             case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_LTE_ADVANCED_PRO:
                 return toIconKey(TelephonyManager.NETWORK_TYPE_LTE) + "_CA_Plus";
             case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA:
-                return toIconKey(TelephonyManager.NETWORK_TYPE_NR);
+                return toIconKey(TelephonyManager.NETWORK_TYPE_NR) + "_NSA";
             case TelephonyDisplayInfo.OVERRIDE_NETWORK_TYPE_NR_NSA_MMWAVE:
                 return toIconKey(TelephonyManager.NETWORK_TYPE_NR) + "_Plus";
             default:

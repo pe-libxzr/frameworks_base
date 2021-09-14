@@ -39,6 +39,8 @@ class TelephonyIcons {
     static final int ICON_1X = R.drawable.ic_1x_mobiledata;
     static final int ICON_5G = R.drawable.ic_5g_mobiledata;
     static final int ICON_5G_PLUS = R.drawable.ic_5g_plus_mobiledata;
+    static final int ICON_NR_NSA = R.drawable.ic_nr_nsa_mobiledata;
+    static final int ICON_NR_SA = R.drawable.ic_nr_sa_mobiledata;
 
     static final MobileIconGroup CARRIER_NETWORK_CHANGE = new MobileIconGroup(
             "CARRIER_NETWORK_CHANGE",
@@ -244,6 +246,34 @@ class TelephonyIcons {
             AccessibilityContentDescriptions.PHONE_SIGNAL_STRENGTH[0],
             R.string.data_connection_5g_plus,
             TelephonyIcons.ICON_5G_PLUS,
+            true);
+
+    static final MobileIconGroup NR_NSA = new MobileIconGroup(
+            "NR_NSA",
+            null,
+            null,
+            AccessibilityContentDescriptions.PHONE_SIGNAL_STRENGTH,
+            0,
+            0,
+            0,
+            0,
+            AccessibilityContentDescriptions.PHONE_SIGNAL_STRENGTH[0],
+            R.string.data_connection_nr_nsa,
+            TelephonyIcons.ICON_NR_NSA,
+            true);
+
+    static final MobileIconGroup NR_SA = new MobileIconGroup(
+            "NR_SA",
+            null,
+            null,
+            AccessibilityContentDescriptions.PHONE_SIGNAL_STRENGTH,
+            0,
+            0,
+            0,
+            0,
+            AccessibilityContentDescriptions.PHONE_SIGNAL_STRENGTH[0],
+            R.string.data_connection_nr_sa,
+            TelephonyIcons.ICON_NR_SA,
             true);
 
     static final MobileIconGroup DATA_DISABLED = new MobileIconGroup(
