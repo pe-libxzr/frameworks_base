@@ -1,0 +1,5 @@
+<resources>
+    <!-- Indicates that the device support qcrilmsgtunnel
+         and the NRModeSwitcher app has been selected -->
+     <bool name="config_supportNRModeSwitcher">false</bool>
+</resources>

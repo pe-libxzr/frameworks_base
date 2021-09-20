@@ -1,0 +1,4 @@
+<resources>
+    <!-- NRModeSwitcher -->
+    <java-symbol type="bool" name="config_supportNRModeSwitcher" />
+</resources>
