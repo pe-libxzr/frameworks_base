@@ -95,11 +95,6 @@ class RefreshRatePolicy {
             return 0;
         }
 
-        // If app requests a certain refresh rate or mode, don't override it.
-        if (w.mAttrs.preferredRefreshRate != 0 || w.mAttrs.preferredDisplayModeId != 0) {
-            return w.mAttrs.preferredDisplayModeId;
-        }
-
         final String packageName = w.getOwningPackage();
 
         // If app is using Camera, force it to default (lower) refresh rate.
