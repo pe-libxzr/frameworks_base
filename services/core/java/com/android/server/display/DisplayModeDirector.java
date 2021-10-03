@@ -951,7 +951,9 @@ public class DisplayModeDirector {
 
         private void updateRefreshRateSettingLocked() {
             float minRefreshRate = Settings.System.getFloat(mContext.getContentResolver(),
-                    Settings.System.MIN_REFRESH_RATE, 0f);
+                    Settings.System.MIN_REFRESH_RATE,
+                        (float) mContext.getResources().getInteger(
+                        com.android.internal.R.integer.config_defaultRefreshRate));
             float peakRefreshRate = Settings.System.getFloat(mContext.getContentResolver(),
                     Settings.System.PEAK_REFRESH_RATE, mDefaultPeakRefreshRate);
             updateRefreshRateSettingLocked(minRefreshRate, peakRefreshRate, mDefaultRefreshRate);
