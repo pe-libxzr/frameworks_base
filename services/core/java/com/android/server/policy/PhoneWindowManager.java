@@ -542,7 +542,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Click volume down + power for partial screenshot
     boolean mClickPartialScreenshot;
-    boolean mClickPartialScreenshotAllowed = true;
 
     private boolean mPendingKeyguardOccluded;
     private boolean mKeyguardOccludedChanged;
@@ -1695,8 +1694,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         @Override
         public void run() {
             if (!mPocketLockShowing){
-                mDefaultDisplayPolicy.takeScreenshot(mScreenshotType, mScreenshotSource,
-                        uri -> { mClickPartialScreenshotAllowed = false; });
+                mDefaultDisplayPolicy.takeScreenshot(mScreenshotType, mScreenshotSource);
             }
         }
     }
@@ -4469,13 +4467,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         cancelPendingScreenshotChordAction();
                         cancelPendingAccessibilityShortcutAction();
 
-                        if (mClickPartialScreenshot && mClickPartialScreenshotAllowed &&
-                                mScreenshotChordVolumeDownKeyConsumed) {
+                        if (mClickPartialScreenshot && mScreenshotChordVolumeDownKeyConsumed) {
                             mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
                             mHandler.post(mScreenshotRunnable);
                         }
-
-                        mClickPartialScreenshotAllowed = true;
                     }
                 } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
                     if (down) {
