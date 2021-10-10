@@ -1,4 +1,6 @@
 <resources>
     <!-- NRModeSwitcher -->
     <java-symbol type="bool" name="config_supportNRModeSwitcher" />
+    <!-- Camera is broken under secure launch mode -->
+    <java-symbol type="bool" name="config_cameraBrokenSecureLaunch" />
 </resources>

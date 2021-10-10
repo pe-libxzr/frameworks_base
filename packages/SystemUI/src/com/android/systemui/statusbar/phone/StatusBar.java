@@ -4233,7 +4233,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             mKeyguardUpdateMonitor.onCameraLaunched();
         }
 
-        if (!mStatusBarKeyguardViewManager.isShowing()) {
+        if (!mStatusBarKeyguardViewManager.isShowing() || mContext.getResources().getBoolean(
+            com.android.internal.R.bool.config_cameraBrokenSecureLaunch)) {
             startActivityDismissingKeyguard(KeyguardBottomAreaView.INSECURE_CAMERA_INTENT,
                     false /* onlyProvisioned */, true /* dismissShade */,
                     true /* disallowEnterPictureInPictureWhileLaunching */, null /* callback */, 0);

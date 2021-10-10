@@ -2,4 +2,8 @@
     <!-- Indicates that the device support qcrilmsgtunnel
          and the NRModeSwitcher app has been selected -->
      <bool name="config_supportNRModeSwitcher">false</bool>
+
+    <!-- Indicates whether we should not use secure launch
+         for camera -->
+     <bool name="config_cameraBrokenSecureLaunch">false</bool>
 </resources>
