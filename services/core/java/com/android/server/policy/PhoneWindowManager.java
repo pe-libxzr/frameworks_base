@@ -1048,7 +1048,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // Reset back key state for long press
         mBackKeyHandled = false;
 
-        if (hasLongPressOnBackBehavior(event)) {
+        if (hasLongPressOnBackBehavior(event) && !mHandler.hasMessages(MSG_BACK_LONG_PRESS)) {
             Message msg = mHandler.obtainMessage(MSG_BACK_LONG_PRESS, event);
             msg.setAsynchronous(true);
             mHandler.sendMessageDelayed(msg,
@@ -4413,6 +4413,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KeyEvent.KEYCODE_BACK: {
                 if (down) {
                     interceptBackKeyDown(event);
+
+                    // Don't pass repeated events to app if user has custom long press action
+                    // set up in settings
+                    if (event.getRepeatCount() > 0 && hasLongPressOnBackBehavior(event)) {
+                        result &= ~ACTION_PASS_TO_USER;
+                    }
                 } else {
                     boolean handled = interceptBackKeyUp(event);
 
